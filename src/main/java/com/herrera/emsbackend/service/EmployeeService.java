@@ -17,4 +17,12 @@ public interface EmployeeService {
      * @return EmployeeDTO - EmployeeDTO of the entity created
      */
     EmployeeDTO createEmployee(EmployeeDTO employeeDTO);
+
+    /**
+     * This method gets an Employee by ID
+     *
+     * @param empId - Employee ID
+     * @return EmployeeDTO - EmployeeDTO of the entity found
+     */
+    EmployeeDTO getEmployeeById(Long empId);
 } // EmployeeService Interface

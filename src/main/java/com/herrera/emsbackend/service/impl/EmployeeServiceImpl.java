@@ -1,6 +1,7 @@
 package com.herrera.emsbackend.service.impl;
 
 import com.herrera.emsbackend.dto.EmployeeDTO;
+import com.herrera.emsbackend.exception.ResourceNotFoundException;
 import com.herrera.emsbackend.mapper.EmployeeMapper;
 import com.herrera.emsbackend.model.Employee;
 import com.herrera.emsbackend.repository.EmployeeRepository;
@@ -27,5 +28,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = EmployeeMapper.mapToEmployee(employeeDTO);
         Employee savedEmployee = employeeRepository.save(employee); // Save employee to database
         return EmployeeMapper.mapToEmployeeDTO(savedEmployee); // Return saved employee dto
-    }
+    } // createEmployee()
+
+    @Override
+    public EmployeeDTO getEmployeeById(Long empId) {
+        // Get employee by id and map to dto. Throw exception if not found.
+        Employee employee = employeeRepository.findById(empId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Employee not found for this id: " + empId)
+                );
+        return EmployeeMapper.mapToEmployeeDTO(employee);
+
+    } // getEmployeeById()
 }

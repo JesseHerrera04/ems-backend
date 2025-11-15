@@ -5,10 +5,7 @@ import com.herrera.emsbackend.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created on 11/15/2025 by Jesse H.
@@ -36,5 +33,17 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployeeDTO);
 
     } // createEmployee()
+
+    /**
+     * This method gets an Employee by ID
+     *
+     * @param empId - Employee ID
+     * @return ResponseEntity with status 200 and the EmployeeDTO of the found Employee
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable("id") Long empId) {
+        EmployeeDTO employeeDTO = employeeService.getEmployeeById(empId);
+        return ResponseEntity.ok(employeeDTO);
+    }
 
 } // EmployeeController Class
