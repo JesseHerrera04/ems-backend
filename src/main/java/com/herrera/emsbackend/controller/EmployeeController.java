@@ -75,4 +75,15 @@ public class EmployeeController {
         return ResponseEntity.ok(updatedEmployeeDTO);
     } // updateEmployee()
 
+    /**
+     * This method deletes an Employee by ID
+     *
+     * @param empId - Employee ID to delete
+     * @return ResponseEntity with status 200 and a message indicating success
+     */
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable("id") Long empId) {
+        employeeService.deleteEmployeeById(empId);
+        return ResponseEntity.ok("Employee Successfully Deleted.");
+    } // deleteEmployeeById()
 } // EmployeeController Class

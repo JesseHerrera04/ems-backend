@@ -43,4 +43,11 @@ public interface EmployeeService {
      * @return EmployeeDTO - EmployeeDTO of the entity updated
      */
     EmployeeDTO updateEmployee(Long empId, EmployeeDTO updatedEmployee);
+
+    /**
+     * This method deletes an Employee by ID
+     *
+     * @param empId - Employee ID to delete
+     */
+    void deleteEmployeeById(Long empId);
 } // EmployeeService Interface
