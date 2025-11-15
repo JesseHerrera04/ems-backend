@@ -48,10 +48,31 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeDTO);
     } // getEmployeeById()
 
+    /**
+     * This method gets all Employees
+     *
+     * @return ResponseEntity with status 200 and a List of EmployeeDTOs
+     */
     @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     } // getAllEmployees()
+
+    /**
+     * This method updates an Employee
+     *
+     * @param empId           - Employee ID to update
+     * @param updatedEmployee - EmployeeDTO with updated data
+     * @return ResponseEntity with status 200 and the EmployeeDTO of the updated Employee
+     */
+    @PutMapping("{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployee(
+            @PathVariable("id") Long empId,
+            @RequestBody EmployeeDTO updatedEmployee
+    ) {
+        EmployeeDTO updatedEmployeeDTO = employeeService.updateEmployee(empId, updatedEmployee);
+        return ResponseEntity.ok(updatedEmployeeDTO);
+    } // updateEmployee()
 
 } // EmployeeController Class

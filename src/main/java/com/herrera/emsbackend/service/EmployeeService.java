@@ -34,4 +34,13 @@ public interface EmployeeService {
      * @return List of EmployeeDTOs
      */
     List<EmployeeDTO> getAllEmployees();
+
+    /**
+     * This method updates an Employee
+     *
+     * @param empId           - Employee ID to update
+     * @param updatedEmployee - EmployeeDTO to update
+     * @return EmployeeDTO - EmployeeDTO of the entity updated
+     */
+    EmployeeDTO updateEmployee(Long empId, EmployeeDTO updatedEmployee);
 } // EmployeeService Interface
