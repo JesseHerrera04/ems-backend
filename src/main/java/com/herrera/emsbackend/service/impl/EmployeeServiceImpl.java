@@ -9,6 +9,8 @@ import com.herrera.emsbackend.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created on 11/15/2025 by Jesse H.
  * <p>
@@ -38,6 +40,21 @@ public class EmployeeServiceImpl implements EmployeeService {
                         "Employee not found for this id: " + empId)
                 );
         return EmployeeMapper.mapToEmployeeDTO(employee);
-
     } // getEmployeeById()
+
+    @Override
+    public List<EmployeeDTO> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+
+        /*
+         * Note: This is just a personal note for reference
+         * Below (after commented code) is the Java 16+ version of this code:
+         * return employees.stream()
+         *                 .map((employee) -> EmployeeMapper.mapToEmployeeDTO(employee))
+         *                 .collect(Collectors.toList())
+         * Note: This list is mutable, but no reason to do so for a GET operation
+         */
+        // Map each employee to dto and return list (immutable)
+        return employees.stream().map(EmployeeMapper::mapToEmployeeDTO).toList();
+    }
 }

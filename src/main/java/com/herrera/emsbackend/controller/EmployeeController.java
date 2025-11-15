@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created on 11/15/2025 by Jesse H.
  * <p>
@@ -44,6 +46,12 @@ public class EmployeeController {
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable("id") Long empId) {
         EmployeeDTO employeeDTO = employeeService.getEmployeeById(empId);
         return ResponseEntity.ok(employeeDTO);
-    }
+    } // getEmployeeById()
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees() {
+        List<EmployeeDTO> employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
+    } // getAllEmployees()
 
 } // EmployeeController Class
