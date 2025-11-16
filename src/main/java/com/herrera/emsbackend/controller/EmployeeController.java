@@ -16,6 +16,7 @@ import java.util.List;
  * <p>
  * REST Controller for Employees
  */
+@CrossOrigin("*")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/employees")
