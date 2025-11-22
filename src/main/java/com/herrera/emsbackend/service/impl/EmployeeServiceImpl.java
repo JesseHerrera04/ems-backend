@@ -7,6 +7,8 @@ import com.herrera.emsbackend.model.Employee;
 import com.herrera.emsbackend.repository.EmployeeRepository;
 import com.herrera.emsbackend.service.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+    private static final Logger log = LoggerFactory.getLogger(EmployeeServiceImpl.class);
     // Fields
     private final EmployeeRepository employeeRepository;
 
@@ -29,21 +32,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         // Create employee and map dto to it
         Employee employee = EmployeeMapper.mapToEmployee(employeeDTO);
         Employee savedEmployee = employeeRepository.save(employee); // Save employee to database
+        log.info("Employee created with id: {}", savedEmployee.getId());
         return EmployeeMapper.mapToEmployeeDTO(savedEmployee); // Return saved employee dto
     } // createEmployee()
 
     @Override
     public EmployeeDTO getEmployeeById(Long empId) {
+        log.info("Getting employee by id: {}", empId);
         // Get employee by id and map to dto. Throw exception if not found.
         Employee employee = employeeRepository.findById(empId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Employee not found for this id: " + empId)
                 );
+        log.info("Employee #{} found!", empId);
         return EmployeeMapper.mapToEmployeeDTO(employee);
     } // getEmployeeById()
 
     @Override
     public List<EmployeeDTO> getAllEmployees() {
+        log.info("Getting all employees");
         List<Employee> employees = employeeRepository.findAll();
 
         /*
@@ -60,6 +67,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO updateEmployee(Long empId, EmployeeDTO updatedEmployee) {
+        log.info("Updating employee with id: {}", empId);
         // Get employee by id and map to dto. Throw exception if not found.
         Employee employee = employeeRepository.findById(empId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -74,6 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // Save updated employee
         Employee savedEmployee = employeeRepository.save(employee);
+        log.info("Employee #{} updated!", empId);
 
         // Return updated employee dto
         return EmployeeMapper.mapToEmployeeDTO(savedEmployee);
@@ -81,6 +90,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteEmployeeById(Long empId) {
+        log.info("Deleting employee with id: {}", empId);
         // Find the employee by id first (throw exception if not found)
         employeeRepository.findById(empId)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -89,5 +99,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         // Delete employee
         employeeRepository.deleteById(empId);
+        log.info("Employee deleted for id: {}", empId);
     } // deleteEmployeeById()
 } // EmployeeServiceImpl Class
