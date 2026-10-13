@@ -24,4 +24,6 @@ public class EmployeeDTO {
     private String lastName;
     private String email;
     private String phone;
+    private String department;
+    private int salary;
 } // EmployeeDTO Class

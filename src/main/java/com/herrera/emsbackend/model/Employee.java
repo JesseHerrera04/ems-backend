@@ -47,4 +47,14 @@ public class Employee {
      */
     @Column(name = "phone_id")
     private String phone;
+    /**
+     * Employee Department
+     */
+    @Column(name = "department")
+    private String department;
+    /**
+     * Employee Salary
+     */
+    @Column(name = "salary")
+    private int salary;
 } // Employee Class
