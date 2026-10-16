@@ -36,6 +36,14 @@ public interface EmployeeService {
     List<EmployeeDTO> getAllEmployees();
 
     /**
+     * This method retrieves all employees by their department name
+     * 
+     * @param deptName - Name of the target Department
+     * @return List of EmployeeDTOs with the specified "department" param
+     */
+    List<EmployeeDTO> getAllEmployeesByDept(String deptName);
+
+    /**
      * This method updates an Employee
      *
      * @param empId           - Employee ID to update
