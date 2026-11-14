@@ -30,13 +30,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created on 10/15/202 by Jesse H.
+ * Created on 10/15/2026 by Jesse H.
  * <p>
  * Package: com.herrera.emsbackend.service (Test); Class: EmployeeServiceImplTest
  * <p>
  * JUnit Tests Class for Employee Service
  */
-public class EmployeeServiceImplTest {
+class EmployeeServiceImplTest {
 
     EmployeeServiceImpl employeeService;
 
@@ -98,7 +98,7 @@ public class EmployeeServiceImplTest {
         assertEquals(salary, savedEmployeeDTO.getSalary()); // Assert salary is the same
     } // testCreateEmployee()
     
-
+    // Test employee updates
     @Test 
     void testUpdateEmployee() {
         // Given (Init EmployeeDTO & Employee)
@@ -160,6 +160,24 @@ public class EmployeeServiceImplTest {
         assertEquals(department, returnedEmployeeDTO.getDepartment()); // Assert department is the same
     } // testUpdateEmployee()
 
+    // Test employee updates when the employee does not exist
+    @Test
+    void testUpdateEmployeeFailWhenEmployeeDoesNotExist() {
+        long missingId = 42L;
+        EmployeeDTO updatedEmployee = new EmployeeDTO();
+        updatedEmployee.setFirstName("Jane");
+
+        when(employeeRepository.findById(missingId)).thenReturn(Optional.empty());
+
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> employeeService.updateEmployee(missingId, updatedEmployee)
+        );
+
+        assertEquals("Employee not found for this id: " + missingId, exception.getMessage());
+        verify(employeeRepository, never()).save(any(Employee.class));
+    }
+
     // Test getting employee by ID
     @Test 
     void testGetEmployeeById() {
@@ -183,9 +201,16 @@ public class EmployeeServiceImplTest {
         long wrongId = 1L;
 
         // When (searching by ID)
-        when(employeeRepository.findById(anyLong())).thenThrow(new ResourceNotFoundException("Employee not found for this id: " + wrongId)); // Then return exception (nothing was found)
+        when(employeeRepository.findById(wrongId)).thenReturn(Optional.empty());
 
-        assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(wrongId)); // Assert exception is thrown
+        // Assert the ResourceNotFoundException is thrown
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> employeeService.getEmployeeById(wrongId)
+        );
+
+        // Assert the exception message is the same as the one expected
+        assertEquals("Employee not found for this id: " + wrongId, exception.getMessage());
     } // testGetEmployeeByIdFail()
 
     // Test getting all employees
