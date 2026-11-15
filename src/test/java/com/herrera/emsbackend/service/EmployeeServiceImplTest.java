@@ -59,7 +59,7 @@ class EmployeeServiceImplTest {
         String fName = "John";
         String lName = "Doe";
         String email = "JohnDoe@test.com";
-        String phone = "555-555-5555";
+        String phone = "+14155552671";
         String department = "Accounting";
         int salary = 65000;
 
@@ -107,7 +107,7 @@ class EmployeeServiceImplTest {
         String fName = "John";
         String lName = "Doe";
         String email = "JohnDoe@test.com";
-        String phone = "555-555-5555";
+        String phone = "+14155552671";
         String department = "Accounting";
         int salary = 65000;
         int newSalary = 70000;
