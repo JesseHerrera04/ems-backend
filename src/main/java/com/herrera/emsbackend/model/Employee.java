@@ -56,5 +56,5 @@ public class Employee {
      * Employee Salary
      */
     @Column(name = "salary")
-    private int salary;
+     private Integer salary;
 } // Employee Class

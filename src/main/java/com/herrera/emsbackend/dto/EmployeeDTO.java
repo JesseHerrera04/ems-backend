@@ -1,5 +1,8 @@
 package com.herrera.emsbackend.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,10 +23,19 @@ import lombok.Setter;
 public class EmployeeDTO {
     // Fields
     private Long id;
+    @NotBlank
     private String firstName;
+    @NotBlank
     private String lastName;
+    @NotBlank
+    @Email
     private String email;
+    @NotBlank
+    @Pattern(
+            regexp = "^\\+1[2-9]\\d{2}[2-9]\\d{6}$",
+            message = "must be a valid US phone number in E.164 format"
+    )
     private String phone;
     private String department;
-    private int salary;
+    private Integer salary;
 } // EmployeeDTO Class

@@ -66,7 +66,7 @@ class EmployeeRepositoryTest {
         employee.setFirstName(firstName);
         employee.setLastName("Doe");
         employee.setEmail(firstName.toLowerCase() + "@example.com");
-        employee.setPhone("555-555-5555");
+        employee.setPhone("+14155552671");
         employee.setDepartment(department);
         employee.setSalary(65000);
         return employee;
