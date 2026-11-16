@@ -1,0 +1,20 @@
+[Unit]
+Description=EMS Spring Boot backend
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=ems-backend
+Group=ems-backend
+WorkingDirectory=/opt/ems-backend
+EnvironmentFile=/etc/ems-backend/ems-backend.env
+ExecStart=/usr/bin/java -jar /opt/ems-backend/ems-backend.jar
+Restart=on-failure
+RestartSec=10
+SuccessExitStatus=143
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
