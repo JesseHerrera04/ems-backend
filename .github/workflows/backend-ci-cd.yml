@@ -26,7 +26,7 @@ jobs:
           cache: maven
 
       - name: Test and package
-        run: ./mvnw --batch-mode clean verify
+        run: bash ./mvnw --batch-mode clean verify
 
       - name: Assemble CodeDeploy bundle
         run: |
