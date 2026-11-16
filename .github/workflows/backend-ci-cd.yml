@@ -1,0 +1,92 @@
+name: Backend CI/CD
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+
+      - name: Test and package
+        run: ./mvnw --batch-mode clean verify
+
+      - name: Assemble CodeDeploy bundle
+        run: |
+          mkdir bundle
+          cp target/ems-backend-*.jar bundle/ems-backend.jar
+          cp appspec.yml bundle/
+          cp -R deploy scripts bundle/
+          chmod +x bundle/scripts/*.sh
+          (cd bundle && zip -qr ../deployment.zip .)
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: codedeploy-bundle
+          path: deployment.zip
+          if-no-files-found: error
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: codedeploy-bundle
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Upload bundle and deploy
+        shell: bash
+        env:
+          DEPLOYMENT_BUCKET: ${{ vars.DEPLOYMENT_BUCKET }}
+          CODEDEPLOY_APPLICATION: ${{ vars.CODEDEPLOY_APPLICATION }}
+          CODEDEPLOY_DEPLOYMENT_GROUP: ${{ vars.CODEDEPLOY_DEPLOYMENT_GROUP }}
+        run: |
+          bundle_key="ems-backend/${GITHUB_SHA}.zip"
+          aws s3 cp deployment.zip "s3://${DEPLOYMENT_BUCKET}/${bundle_key}"
+
+          deployment_id=$(aws deploy create-deployment \
+            --application-name "${CODEDEPLOY_APPLICATION}" \
+            --deployment-group-name "${CODEDEPLOY_DEPLOYMENT_GROUP}" \
+            --s3-location "bucket=${DEPLOYMENT_BUCKET},key=${bundle_key},bundleType=zip" \
+            --file-exists-behavior OVERWRITE \
+            --description "GitHub revision ${GITHUB_SHA}" \
+            --query deploymentId \
+            --output text)
+
+          aws deploy wait deployment-successful --deployment-id "${deployment_id}"
