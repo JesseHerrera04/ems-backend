@@ -1,5 +1,8 @@
 # Employee Management System - Backend
 
+[![API Status](https://img.shields.io/badge/API_Health-Online-brightgreen?style=for-the-badge&logo=springboot&logoColor=white)](https://9mw56dfg4l.execute-api.us-east-2.amazonaws.com/actuator/health)
+[![Live Frontend](https://img.shields.io/badge/Live_App-AWS_Amplify-FF9900?style=for-the-badge&logo=awsamplify&logoColor=white)](https://main.d1u8p67w1orxg1.amplifyapp.com)
+
 This project contains the backend of the Employee Management System sample web application, made with Java and Spring Boot.
 
 The frontend for this web application can be found here:
