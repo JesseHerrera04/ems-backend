@@ -24,7 +24,9 @@ public class EmployeeMapper {
                 employee.getFirstName(),
                 employee.getLastName(),
                 employee.getEmail(),
-                employee.getPhone()
+                employee.getPhone(),
+                employee.getDepartment(),
+                employee.getSalary()
         );
     } // mapToEmployeeDTO()
 
@@ -40,7 +42,9 @@ public class EmployeeMapper {
                 employeeDTO.getFirstName(),
                 employeeDTO.getLastName(),
                 employeeDTO.getEmail(),
-                employeeDTO.getPhone()
+                employeeDTO.getPhone(),
+                employeeDTO.getDepartment(),
+                employeeDTO.getSalary()
         );
     } // mapToEmployee()
 } // EmployeeMapper Class

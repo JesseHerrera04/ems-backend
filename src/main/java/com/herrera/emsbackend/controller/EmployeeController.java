@@ -2,6 +2,7 @@ package com.herrera.emsbackend.controller;
 
 import com.herrera.emsbackend.dto.EmployeeDTO;
 import com.herrera.emsbackend.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +17,7 @@ import java.util.List;
  * <p>
  * REST Controller for Employees
  */
-@CrossOrigin("*")
+@CrossOrigin(origins = "${app.cors.allowed-origin:http://localhost:3000}")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/employees")
@@ -31,7 +32,7 @@ public class EmployeeController {
      * @return ResponseEntity with status 201 and the EmployeeDTO of the created Employee
      */
     @PostMapping
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
         EmployeeDTO savedEmployeeDTO = employeeService.createEmployee(employeeDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEmployeeDTO);
 
@@ -70,7 +71,7 @@ public class EmployeeController {
     @PutMapping("{id}")
     public ResponseEntity<EmployeeDTO> updateEmployee(
             @PathVariable("id") Long empId,
-            @RequestBody EmployeeDTO updatedEmployee
+            @Valid @RequestBody EmployeeDTO updatedEmployee
     ) {
         EmployeeDTO updatedEmployeeDTO = employeeService.updateEmployee(empId, updatedEmployee);
         return ResponseEntity.ok(updatedEmployeeDTO);

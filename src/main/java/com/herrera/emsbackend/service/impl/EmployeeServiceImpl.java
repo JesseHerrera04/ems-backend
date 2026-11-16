@@ -65,6 +65,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employees.stream().map(EmployeeMapper::mapToEmployeeDTO).toList();
     } // getAllEmployees()
 
+    @Override 
+    public List<EmployeeDTO> getAllEmployeesByDept(String deptName) {
+        List<Employee> employees = employeeRepository.findByDepartmentIgnoreCase(deptName);
+
+        // Map each employee to dto and return list of employees
+        return employees.stream().map(EmployeeMapper::mapToEmployeeDTO).toList();
+    } // getAllEmployeesByDept()
+
     @Override
     public EmployeeDTO updateEmployee(Long empId, EmployeeDTO updatedEmployee) {
         log.info("Updating employee with id: {}", empId);
@@ -79,6 +87,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLastName(updatedEmployee.getLastName());
         employee.setEmail(updatedEmployee.getEmail());
         employee.setPhone(updatedEmployee.getPhone());
+        employee.setDepartment(updatedEmployee.getDepartment());
+        employee.setSalary(updatedEmployee.getSalary());
 
         // Save updated employee
         Employee savedEmployee = employeeRepository.save(employee);
