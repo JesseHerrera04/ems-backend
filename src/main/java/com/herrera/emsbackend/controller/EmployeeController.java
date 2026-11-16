@@ -17,7 +17,7 @@ import java.util.List;
  * <p>
  * REST Controller for Employees
  */
-@CrossOrigin(origins = "${app.cors.allowed-origin}")
+@CrossOrigin(origins = "${app.cors.allowed-origin:http://localhost:3000}")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/employees")

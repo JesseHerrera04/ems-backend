@@ -9,22 +9,22 @@ This project was made to further develop my skills in Java and Spring Framework 
 It works in conjunction with the frontend, a React Application, to simulate a real world web application.
 
 ## Project Requirements
-- Java 17 or newer
-- MySQL Database named `ems` on port `3307` (default, can be overridden with environment variables)
+- Java 25 or newer
+- PostgreSQL Database named `ems` on port `5432` (default, can be overridden with environment variables)
 - Maven installed
 ## How to Build
 
 - Download or clone this repository
 - Open the project in an IDE of your choice
-- Ensure MySQL server is running at port `3307` with no password (default application configuration)
+- Ensure PostgreSQL is running locally with a database named `ems`
 - Optional: Set environment variables if you want to override defaults
-    - `DB_URL`: URL of MySQL database (database name and port can be different from default)
-    - `DB_USER`: Username of MySQL database
-    - `DB_PASSWORD`: Password of MySQL database (leave empty if no password)
-    - Optional: set `SPRING_PROFILES_ACTIVE` to `dev` to use H2 database instead of MySQL (No server needed)
+    - `DB_URL`: JDBC URL of the PostgreSQL database (default: `jdbc:postgresql://localhost:5432/ems`)
+    - `DB_USER`: PostgreSQL username (default: `postgres`)
+    - `DB_PASS`: PostgreSQL password (default: empty for local development)
+    - Optional: set `SPRING_PROFILES_ACTIVE` to `dev` to use H2 instead of PostgreSQL (no server needed)
 - Build the project using Maven `install` or `package` command
 
 ## Run
 - IDE: Run with Maven or with IDE Run button
-- Ensure MySQL server is running beforehand, and `ems` database exists with valid credentials (unless overridden by env
-  var or profiles, else will use defaults)
+- Ensure PostgreSQL is running beforehand, and the `ems` database exists with valid credentials (unless overridden by
+  environment variables or the `dev` profile)
